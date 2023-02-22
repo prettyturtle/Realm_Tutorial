@@ -108,6 +108,7 @@ final class RealmViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(#function)
+        view.backgroundColor = .systemBackground
         navigationItem.title = "Realm"
         [
             saveButton,

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B29BD1929A5125800F39932 /* RealmTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B29BD1829A5125800F39932 /* RealmTableViewController.swift */; };
+		6B29BD1B29A51BE400F39932 /* RealmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B29BD1A29A51BE400F39932 /* RealmTableViewCell.swift */; };
+		6B29BD1D29A51FAF00F39932 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B29BD1C29A51FAF00F39932 /* TabBarController.swift */; };
 		6B6D4A9D29A3DDE800D0D200 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6D4A9C29A3DDE800D0D200 /* AppDelegate.swift */; };
 		6B6D4A9F29A3DDE800D0D200 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6D4A9E29A3DDE800D0D200 /* SceneDelegate.swift */; };
 		6B6D4AA129A3DDE800D0D200 /* RealmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6D4AA029A3DDE800D0D200 /* RealmViewController.swift */; };
@@ -21,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6B29BD1829A5125800F39932 /* RealmTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmTableViewController.swift; sourceTree = "<group>"; };
+		6B29BD1A29A51BE400F39932 /* RealmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmTableViewCell.swift; sourceTree = "<group>"; };
+		6B29BD1C29A51FAF00F39932 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		6B6D4A9929A3DDE800D0D200 /* Realm_Tutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Realm_Tutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B6D4A9C29A3DDE800D0D200 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B6D4A9E29A3DDE800D0D200 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +75,9 @@
 				6B6D4A9C29A3DDE800D0D200 /* AppDelegate.swift */,
 				6B6D4A9E29A3DDE800D0D200 /* SceneDelegate.swift */,
 				6B6D4AA029A3DDE800D0D200 /* RealmViewController.swift */,
+				6B29BD1829A5125800F39932 /* RealmTableViewController.swift */,
+				6B29BD1C29A51FAF00F39932 /* TabBarController.swift */,
+				6B29BD1A29A51BE400F39932 /* RealmTableViewCell.swift */,
 				6B6D4ABB29A3DEA900D0D200 /* MyButton.swift */,
 				6B6D4AA229A3DDE800D0D200 /* Main.storyboard */,
 				6B6D4AA529A3DDED00D0D200 /* Assets.xcassets */,
@@ -161,8 +170,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B6D4AA129A3DDE800D0D200 /* RealmViewController.swift in Sources */,
+				6B29BD1B29A51BE400F39932 /* RealmTableViewCell.swift in Sources */,
 				6B6D4A9D29A3DDE800D0D200 /* AppDelegate.swift in Sources */,
 				6B6D4A9F29A3DDE800D0D200 /* SceneDelegate.swift in Sources */,
+				6B29BD1D29A51FAF00F39932 /* TabBarController.swift in Sources */,
+				6B29BD1929A5125800F39932 /* RealmTableViewController.swift in Sources */,
 				6B6D4ABC29A3DEA900D0D200 /* MyButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
