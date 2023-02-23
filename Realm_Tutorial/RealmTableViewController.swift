@@ -45,6 +45,13 @@ final class RealmTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let urlString = "http://localhost:3000/"
+        let url = URL(string: urlString)!
+        Task {
+            let (data, res) = try await URLSession.shared.data(from: url)
+            
+            print(String(data: data, encoding: .utf8), res)
+        }
         configureUI()
         
         NotificationCenter.default.addObserver(
@@ -108,6 +115,15 @@ private extension RealmTableViewController {
         do {
             try db.write {
                 db.delete(todoItem)
+            }
+        } catch {
+            return
+        }
+    }
+    func updateTodoItem(todoItem: TodoItem) {
+        do {
+            try db.write {
+                db.add(todoItem, update: .modified)
             }
         } catch {
             return
@@ -216,7 +232,37 @@ extension RealmTableViewController: UITableViewDataSource, UITableViewDelegate {
         }
         let updateAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completion in
             guard let self = self else { return }
-            //TODO: - UPDATE
+            
+            let alertController = UIAlertController(title: "수정하기", message: nil, preferredStyle: .alert)
+            
+            alertController.addTextField { tf in
+                tf.placeholder = "수정할 할 일을 입력하세요..."
+                tf.borderStyle = .roundedRect
+                tf.font = .systemFont(ofSize: 14.0, weight: .medium)
+            }
+            
+            let updateAction = UIAlertAction(title: "수정", style: .default) { _ in
+                let updatedTitle = alertController.textFields?.first?.text ?? ""
+                
+                if updatedTitle != "" {
+                    let updatedTodoItem = TodoItem(id: self.todoList[indexPath.row].id, title: updatedTitle)
+                    
+                    self.updateTodoItem(todoItem: updatedTodoItem)
+                    self.readAllTodoItemsAndTableViewReload()
+                }
+            }
+            
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+            
+            [
+                updateAction,
+                cancelAction
+            ].forEach {
+                alertController.addAction($0)
+            }
+            
+            self.present(alertController, animated: true)
+            
             tableView.deselectRow(at: indexPath, animated: true)
             completion(true)
         }
