@@ -11,7 +11,11 @@ import Then
 import RealmSwift
 
 final class RealmTableViewController: UIViewController {
+    private lazy var refreshControl = UIRefreshControl().then {
+        $0.addTarget(self, action: #selector(beginRefresh), for: .valueChanged)
+    }
     private lazy var tableView = UITableView().then {
+        $0.refreshControl = refreshControl
         $0.backgroundColor = .systemBackground
         $0.keyboardDismissMode = .onDrag
         $0.dataSource = self
@@ -91,6 +95,24 @@ private extension RealmTableViewController {
         todoList = todoItems
         tableView.reloadData()
     }
+    func createTodoItem(todoItem: TodoItem) {
+        do {
+            try db.write {
+                db.add(todoItem)
+            }
+        } catch {
+            return
+        }
+    }
+    func deleteTodoItem(todoItem: TodoItem) {
+        do {
+            try db.write {
+                db.delete(todoItem)
+            }
+        } catch {
+            return
+        }
+    }
 }
 
 // MARK: - @objc Methods
@@ -101,14 +123,14 @@ private extension RealmTableViewController {
         let title = textField.text ?? ""
         let todoItem = TodoItem(id: UUID().uuidString, title: title)
         
-        do {
-            try db.write {
-                db.add(todoItem)
-                readAllTodoItemsAndTableViewReload()
-            }
-        } catch {
-            return
-        }
+        createTodoItem(todoItem: todoItem)
+        readAllTodoItemsAndTableViewReload()
+        textField.text = ""
+    }
+    
+    @objc func beginRefresh() {
+        readAllTodoItemsAndTableViewReload()
+        refreshControl.endRefreshing()
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -131,6 +153,7 @@ private extension RealmTableViewController {
 // MARK: - Configure UI
 private extension RealmTableViewController {
     func configureUI() {
+        navigationItem.title = "Realm Todo"
         view.backgroundColor = .systemBackground
         [tableView, textField, saveButton].forEach {
             view.addSubview($0)
@@ -181,5 +204,31 @@ extension RealmTableViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completion in
+            guard let self = self else { return }
+            tableView.deselectRow(at: indexPath, animated: true)
+            self.deleteTodoItem(todoItem: self.todoList[indexPath.row])
+            self.readAllTodoItemsAndTableViewReload()
+            completion(true)
+        }
+        let updateAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completion in
+            guard let self = self else { return }
+            //TODO: - UPDATE
+            tableView.deselectRow(at: indexPath, animated: true)
+            completion(true)
+        }
+        
+        deleteAction.backgroundColor = .systemRed
+        deleteAction.image = UIImage(systemName: "trash")
+        
+        updateAction.backgroundColor = .systemBlue
+        updateAction.image = UIImage(systemName: "pencil.and.outline")
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction, updateAction])
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
     }
 }
