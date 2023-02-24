@@ -45,13 +45,6 @@ final class RealmTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let urlString = "http://localhost:3000/"
-        let url = URL(string: urlString)!
-        Task {
-            let (data, res) = try await URLSession.shared.data(from: url)
-            
-            print(String(data: data, encoding: .utf8), res)
-        }
         configureUI()
         
         NotificationCenter.default.addObserver(
@@ -137,7 +130,10 @@ private extension RealmTableViewController {
         print(#function)
         guard textField.text != "" else { return }
         let title = textField.text ?? ""
-        let todoItem = TodoItem(id: UUID().uuidString, title: title)
+        let todoItem = TodoItemBuilder()
+                        .withID(UUID().uuidString)
+                        .withTitle(title)
+                        .build()
         
         createTodoItem(todoItem: todoItem)
         readAllTodoItemsAndTableViewReload()
@@ -245,7 +241,10 @@ extension RealmTableViewController: UITableViewDataSource, UITableViewDelegate {
                 let updatedTitle = alertController.textFields?.first?.text ?? ""
                 
                 if updatedTitle != "" {
-                    let updatedTodoItem = TodoItem(id: self.todoList[indexPath.row].id, title: updatedTitle)
+                    let updatedTodoItem = TodoItemBuilder()
+                                            .withID(self.todoList[indexPath.row].id)
+                                            .withTitle(updatedTitle)
+                                            .build()
                     
                     self.updateTodoItem(todoItem: updatedTodoItem)
                     self.readAllTodoItemsAndTableViewReload()
